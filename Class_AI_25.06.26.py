@@ -26,15 +26,15 @@ print(image.min())
 # # Завдання 2
 # # Відкрийте зображення data/Lenna.png. Виведіть на екран такі зображень:
 # #  Верхній лівий кут розміром 100х50
-# segment_1 = image[0:100, 0:50]
-# cv2.imshow("segment_1", segment_1)
-# cv2.waitKey(0)
-#
+segment_1 = image[0:100, 0:50]
+cv2.imshow("segment_1", segment_1)
+cv2.waitKey(0)
+
 # #  Центральний квадрат розміром 100х100
-# segment_2 = image[78:156, 78:156]
-# cv2.imshow("segment_2", segment_2)
-# print(segment_2.shape)
-# cv2.waitKey(0)
+segment_2 = image[78:156, 78:156]
+cv2.imshow("segment_2", segment_2)
+print(segment_2.shape)
+cv2.waitKey(0)
 #
 # #  Верхню половину
 segment_3 = image[:128, :1]
