@@ -39,7 +39,7 @@ print(fps)
 # кодек(розширення файлу(mp4, avi, xvd))
 fourcc = cv2.VideoWriter_fourcc(*'mp4v')
 out_writer = cv2.VideoWriter(
-    "result.mp4",   # файл куди зберігати відео
+    "result_book.mp4",   # файл куди зберігати відео
     fourcc,      # кодек
     fps,         # частота кадрів в секунду
     (width, height),   # розмір (ширина, висота)

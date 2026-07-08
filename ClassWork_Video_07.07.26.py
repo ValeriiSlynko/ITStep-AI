@@ -25,7 +25,7 @@ print(fps)
 # кодек(розширення файлу(mp4, avi, xvd))
 fourcc = cv2.VideoWriter_fourcc(*'mp4v')
 out_writer = cv2.VideoWriter(
-    "result.mp4",   # файл куди зберігати відео
+    "result_book.mp4",   # файл куди зберігати відео
     fourcc,      # кодек
     fps,         # частота кадрів в секунду
     (500, 500),   # розмір (ширина, висота)
@@ -57,13 +57,13 @@ cap.release()
 
 # -- ЗАВДАННЯ 2 --
 # Відкрийте відео з файлу data\lesson7\text.mp4.
-# Проведіть бінарізацію кадрів та збережіть в новий файл.
+# Проведіть бінаризацію кадрів та збережіть в новий файл.
 
     # Відкриваємо відео text.mp4 з файлу
 cap = cv2.VideoCapture(
     "data/lesson7/text.mp4", # шлях до файлу з відео або 0 для відеокамери комп'ютери
 )
-    # запуск безкінечного циклу для запуску відео
+    # запуск нескінченного циклу для запуску відео
 while True:
     ret, frame = cap.read()
     if not ret:
@@ -99,7 +99,7 @@ while True:
     # ДВОСТОРОННІЙ ФІЛЬТР
     bilat = cv2.bilateralFilter(
         gray_image,  # зображення з шумом
-        d=5,  # розмір фільтру
+        d=5,  # розмір фільтра
         sigmaColor=75,  # наскільки важливі пікселі іншого кольору
         sigmaSpace=50,  # наскільки важливими є далекі пікселі
     )
@@ -110,7 +110,7 @@ while True:
         255,  # білий колір
         cv2.ADAPTIVE_THRESH_GAUSSIAN_C,  # фільтр для обрахунку порогу (Гаус)
         cv2.THRESH_BINARY,  # цей рядок просто треба вказаати
-        7,  # розмір фільтру
+        7,  # розмір фільтра
         3,  # наскільки ПІКСЕЛЬ має відрізнятися від порогу
     )
     cv2.imshow('Adaptive', result)
@@ -131,9 +131,16 @@ while True:
     if not ret:
         break
 
+    # --- зміна розміру кадрів(відео) ---
+    new_frame = cv2.resize(
+        frame,
+        (500, 500)
+    )
+
+    cv2.imshow("new_frame", new_frame)
     cv2.imshow("frame", frame)
 
-    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    hsv = cv2.cvtColor(new_frame, cv2.COLOR_BGR2HSV)
     lower = (40, 80, 50)
     upper = (65, 255, 255)
 
