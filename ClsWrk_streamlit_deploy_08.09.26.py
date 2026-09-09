@@ -19,21 +19,24 @@ from langchain_core.messages import (
 api_key = st.secrets["GEMINI_API_KEY"]
 
 llm = ChatGoogleGenerativeAI(
-    model="gemini-3.6-flash",  # назва моделі
-    api_key=api_key  # ключ до сервера з моделлю
+    model="gemini-3.6-flash",   # назва моделі
+    api_key=api_key     # ключ до сервера з моделлю
 )
+st.title("The author of the chatbot is Valeriy Slynko")
 
 user_query = st.chat_input("Ваше повідомлення")
 
-person = st.text_input("Введіть з ким ви хочете поговорити")
+person = st.text_input("Вкажіть Ім'я Прізвище з ким ви хочете поговорити")
+
 # якщо це початок, то створити історію в session state
-if 'history' not in st.session_state and person:
+if 'history' not in st.session_state and person is not None:
     # історія повідомлень
     st.session_state['history'] = [
         # перше повідомлення з основними інструкціями(промпт)
         SystemMessage(
             f"""
-            Ти -- {person} ввічливий чат бот, твоя задача давити короткі та чіткі відповіді на питання
+            Ти -- {person} вихований, ерудований та об'єктивний чат-бот. 
+            Твоя задача: давати зрозумілі повні відповіді на питання.
             """
         )
     ]
@@ -63,9 +66,9 @@ if user_query:
 
         # отримати роль
         if isinstance(message, HumanMessage):
-            role = "human"
+            role = "Human"
         else:
-            role = 'ai'
+            role = 'AI'
 
         # вивести повідомлення з підписом
         with st.chat_message(role):
