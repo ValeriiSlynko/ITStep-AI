@@ -7,3 +7,6 @@ practice/*
 
 random_generator.py
 students.csv
+
+data/
+*.pt
