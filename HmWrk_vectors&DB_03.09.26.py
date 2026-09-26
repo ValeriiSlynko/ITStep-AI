@@ -134,7 +134,6 @@ llm = ChatGoogleGenerativeAI(
 tools = [search_knowledge_base]
 agent = create_agent(llm, tools)
 
-# 4. Задаємо запитання агенту
 # 4. Інтерактивний чат у консолі
 print("\n=== Чат з агентом запущено! (введіть 'exit' для виходу) ===")
 
