@@ -10,3 +10,9 @@ students.csv
 
 data/
 *.pt
+# Ігноруємо всі файли та картинки у папці data
+data/
+*.bmp
+*.png
+*.jpg
+*.jpeg
