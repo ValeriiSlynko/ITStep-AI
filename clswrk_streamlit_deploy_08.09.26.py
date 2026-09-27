@@ -27,7 +27,7 @@ llm = ChatGoogleGenerativeAI(
 st.title("The author of the chatbot is Valeriy Slynko")
 
 # 1. Спочатку зчитуємо персонажа
-person = st.text_input("Вкажіть Ім'я Прізвище з ким ви хочете поговорити", value="Альберт Ейнштейн")
+person = st.text_input("Вкажіть Ім'я Прізвище відомої людини", value="")
 
 # Ініціалізація або оновлення історії при зміні персонажа
 if 'history' not in st.session_state or st.session_state.get('current_person') != person:
@@ -78,7 +78,6 @@ if user_query:
 
         # Вивід повідомлення
         with st.chat_message(role):
-            st.write(f"**{name}:**")
             st.markdown(message.content)
 
 
