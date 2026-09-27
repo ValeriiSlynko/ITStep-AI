@@ -17,7 +17,7 @@ from langchain_core.messages import (
 # Напишіть додаток, який симулює спілкування з певною відомою людиною.
 # З ким саме спілкуватись вводить користувач через st.text_input()
 api_key = st.secrets["GEMINI_API_KEY"]
-print(api_key)
+
 
 # Ініціалізація моделі
 llm = ChatGoogleGenerativeAI(
@@ -64,6 +64,9 @@ if user_query:
         # Пропускаємо системні інструкції
         if isinstance(message, SystemMessage):
             continue
+
+        # отримати вміст
+        text = message.text
 
         # Визначення ролі для аватарки та підпису
         if isinstance(message, HumanMessage):
