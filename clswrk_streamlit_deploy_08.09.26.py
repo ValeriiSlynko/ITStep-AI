@@ -78,7 +78,7 @@ if user_query:
 
         # Вивід повідомлення
         with st.chat_message(role):
-            st.markdown(message.content)
+            st.markdown(message.text)
 
 
 # Завдання 2
