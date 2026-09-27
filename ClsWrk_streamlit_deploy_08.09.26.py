@@ -17,29 +17,33 @@ from langchain_core.messages import (
 # Напишіть додаток, який симулює спілкування з певною відомою людиною.
 # З ким саме спілкуватись вводить користувач через st.text_input()
 api_key = st.secrets["GEMINI_API_KEY"]
+print(api_key)
 
+# Ініціалізація моделі
 llm = ChatGoogleGenerativeAI(
     model="gemini-3.6-flash",   # назва моделі
     api_key=api_key     # ключ до сервера з моделлю
 )
 st.title("The author of the chatbot is Valeriy Slynko")
 
-user_query = st.chat_input("Ваше повідомлення")
+# 1. Спочатку зчитуємо персонажа
+person = st.text_input("Вкажіть Ім'я Прізвище з ким ви хочете поговорити", value="Альберт Ейнштейн")
 
-person = st.text_input("Вкажіть Ім'я Прізвище з ким ви хочете поговорити")
-
-# якщо це початок, то створити історію в session state
-if 'history' not in st.session_state and person is not None:
-    # історія повідомлень
+# Ініціалізація або оновлення історії при зміні персонажа
+if 'history' not in st.session_state or st.session_state.get('current_person') != person:
+    st.session_state['current_person'] = person
     st.session_state['history'] = [
-        # перше повідомлення з основними інструкціями(промпт)
         SystemMessage(
-            f"""
-            Ти -- {person} вихований, ерудований та об'єктивний чат-бот. 
-            Твоя задача: давати зрозумілі повні відповіді на питання.
+            content=f"""
+            Ти — {person}. Поводься, розмовляй та відповідай як {person}. 
+            Ти вихований, ерудований та об'єктивний. 
+            Твоя задача: давати зрозумілі та повні відповіді на питання в обраному образі.
             """
         )
     ]
+
+# 2. Потім приймаємо повідомлення від користувача
+user_query = st.chat_input("Ваше повідомлення")
 
 if user_query:
     # переводимо повідомлення в HumanMessage
@@ -55,24 +59,24 @@ if user_query:
     # добавляємо до історії повідомлень
     st.session_state['history'].append(response)
 
-    # вивести всю історію спілкування
+    # 3. Відображення всієї історії спілкування
     for message in st.session_state['history']:
-        # пропускаємо SystemMessage
+        # Пропускаємо системні інструкції
         if isinstance(message, SystemMessage):
             continue
 
-        # отримати вміст
-        text = message.text
-
-        # отримати роль
+        # Визначення ролі для аватарки та підпису
         if isinstance(message, HumanMessage):
-            role = "Human"
+            role = "user"
+            name = "Ви"
         else:
-            role = 'AI'
+            role = "assistant"
+            name = person
 
-        # вивести повідомлення з підписом
+        # Вивід повідомлення
         with st.chat_message(role):
-            st.markdown(text)
+            st.write(f"**{name}:**")
+            st.markdown(message.content)
 
 
 # Завдання 2
