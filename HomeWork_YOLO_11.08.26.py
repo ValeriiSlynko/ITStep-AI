@@ -58,19 +58,30 @@ while True:
     if len(xy) > 0 and len(xy[0]) > 0:
         xy = xy[0]
         xy = xy.astype(int)
-        # отримуємо координати 3-х точок ПРАВОЇ ноги: Таз/Pelvis(12), Коліно/Knee(14), Стопа/Foot(16)
+        # отримуємо координати 3-х точок: Таз/Pelvis(12), Коліно/Knee(14), Стопа/Foot(16), Плече(пр.)/shoulder
         x_right_pelvis, y_right_pelvis = xy[12]
         x_right_knee, y_right_knee = xy[14]
         x_right_foot, y_right_foot = xy[16]
+        x_right_shoulder, y_right_shoulder = xy[6]
 
         # -I- МАЛЮЄМО ЛІНІЇ МІЖ ТОЧКАМИ (немов скелет ноги)
+
+        # 1. Лінія від Плеча до Таза
+        cv2.line(
+            frame,
+            pt1=(x_right_shoulder, y_right_shoulder),
+            pt2=(x_right_pelvis, y_right_pelvis),
+            color=(255, 255, 255),  # буде білий колір
+            thickness=2,  # Обираємо товщину лінії
+        )
+
         # 1. Лінія від Таза до Коліна
         cv2.line(
             frame,
             pt1=(x_right_pelvis, y_right_pelvis),
             pt2=(x_right_knee, y_right_knee),
             color=(255, 255, 255),  # буде білий колір
-            thickness=3,    # Обираємо товщину лінії
+            thickness=2,    # Обираємо товщину лінії
         )
         # 2. Лінія від Коліна до Стопи
         cv2.line(
@@ -78,10 +89,19 @@ while True:
             pt1=(x_right_knee, y_right_knee),
             pt2=(x_right_foot, y_right_foot),
             color=(255, 255, 255),  # буде білий колір
-            thickness=3,  # Обираємо товщину лінії
+            thickness=2,  # Обираємо товщину лінії
         )
 
         # -II- МАЛЮЄМО КРУГИ НА ТОЧКАХ
+
+        # Плече праве (Жовтий)
+        cv2.circle(
+            frame,  # зображення малювати коло на правій стороні таза
+            center=(x_right_shoulder, y_right_shoulder),  # координати центруq
+            radius=12,  # радіус в пікселях
+            color=(0, 255, 255),  # колір в BGR (жовтий)
+            thickness=-1,  # товщина ліній, -1 означає повністю заповнити кольором
+        )
         # Таз (Зелений)
         cv2.circle(
             frame,  # зображення малювати коло на правій стороні таза
